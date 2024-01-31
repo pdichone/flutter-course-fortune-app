@@ -3,6 +3,7 @@ import 'dart:math';
 
 void main() {
   runApp(const MyApp());
+  // comments here about this today it works!
 }
 
 class MyApp extends StatelessWidget {
@@ -18,13 +19,13 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: MyHomePage(),
+      home: const MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({super.key});
+  const MyHomePage({super.key});
 
   // This widget is the home page of your application. It is stateful, meaning
 
@@ -50,12 +51,13 @@ class _MyHomePageState extends State<MyHomePage> {
     int fortune = random.nextInt(_fortuneList.length);
     setState(() {
       _currentFortune = _fortuneList[fortune];
+      print("State Change==>: $_currentFortune");
     });
-    print(_currentFortune);
   }
 
   @override
   Widget build(BuildContext context) {
+    print("Building the widget");
     return Scaffold(
       appBar: AppBar(),
       body: Center(
@@ -72,21 +74,16 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  '${_currentFortune}',
+                  _currentFortune,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
               ),
             ),
             ElevatedButton(
-                onPressed: _randomFortune, child: Text('Get Fortune'))
+                onPressed: _randomFortune, child: const Text('Get Fortune'))
           ],
         ),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: _randomFortune,
-      //   tooltip: 'Increment',
-      //   child: const Icon(Icons.add),
-      // ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
