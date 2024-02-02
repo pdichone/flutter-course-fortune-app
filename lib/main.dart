@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 
+import 'package:fortune_cookie/providers/FortuneModel.dart';
+import 'package:provider/provider.dart';
+
 void main() {
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+      create: (context) => FortuneModel(), child: const MyApp()));
   // comments here about this today it works!
 }
 
@@ -34,30 +38,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String _currentFortune = "";
-
-  final _fortuneList = [
-    "You will find a new friend",
-    "You will find a new friend tomorrow",
-    "A truly rich life contains love and art in abundance.",
-    "Accept something that you cannot change, and you will feel better.",
-    "Adventure can be real happiness.",
-    "Advice is like kissing. It costs nothing and is a pleasant thing to do.",
-    "Advice, when most needed, is least heeded.",
-  ];
-
-  void _randomFortune() {
-    var random = Random();
-    int fortune = random.nextInt(_fortuneList.length);
-    setState(() {
-      _currentFortune = _fortuneList[fortune];
-      print("State Change==>: $_currentFortune");
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    print("Building the widget");
+    final fortune = Provider.of<FortuneModel>(context);
     return Scaffold(
       appBar: AppBar(),
       body: Center(
@@ -74,13 +57,14 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  _currentFortune,
+                  fortune.currentFortune,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
               ),
             ),
             ElevatedButton(
-                onPressed: _randomFortune, child: const Text('Get Fortune'))
+                onPressed: () => fortune.getNewFortune(),
+                child: const Text('Get Fortune'))
           ],
         ),
       ),
